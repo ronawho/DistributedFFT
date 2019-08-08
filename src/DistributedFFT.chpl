@@ -149,8 +149,10 @@ prototype module DistributedFFT {
         if !warmUpOnly {
           if !plan_yz.isValid then
             halt("Error! Plan generation failed! Did you run the warmup routine?");
-          // Execute the plan
+          // Execute the plan (disabling affinity to avoid interference)
+          chpl_disableAffinity();
           plan_yz.execute();
+          chpl_enableAffinity();
         }
 
         // on loc ends
